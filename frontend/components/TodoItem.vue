@@ -31,6 +31,7 @@
               style="display: inline-block;"
               color="green lighten-1"
             />
+            {{ todo.done }}
           </div>
         </v-flex>
       </v-layout>

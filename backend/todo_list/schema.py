@@ -9,13 +9,17 @@ from backend.todo_list.models import Todo, Category
 # Однако будьте осторожны, связывание таблиц практически напрямую
 # с фронтом может быть чревато при росте проекта. Думаю такой способ
 # подходит преимущественно для небольших CRUD приложений.
+
+
 class CategoryNode(DjangoObjectType):
     class Meta:
         model = Category
 
+
 class TodoNode(DjangoObjectType):
     class Meta:
         model = Todo
+
 
 class Query(graphene.ObjectType):
     """ Описываем запросы и возвращаемые типы данных """
@@ -27,6 +31,7 @@ class Query(graphene.ObjectType):
 
     def resolve_categories(self, info):
         return Category.objects.all()
+
 
 class Mutation(graphene.ObjectType):
     """ В мутации описываем типы запросов (простите за каламбур),

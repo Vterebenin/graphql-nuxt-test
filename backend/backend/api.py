@@ -6,6 +6,7 @@ from backend.todo_list.schema import Query, Mutation
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
 
+
 class CustomCsrfMiddleware(CsrfViewMiddleware):
     def process_view(self, request, callback, callback_args, callback_kwargs):
         if getattr(request, 'csrf_processing_done', False):
