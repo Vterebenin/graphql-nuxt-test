@@ -1,53 +1,33 @@
 <!-- frontend/components/NewTodoForm.vue -->
-<template>
-  <v-card>
-    <v-card-title class="pb-1" style="overflow-wrap: break-word;">
-      <b>{{ todo.title }}</b>
-      <v-spacer />
-      <!-- Изменено событие -->
-      <v-btn
-        @click="remove"
-        text
-        small
-        icon
-        style="position: absolute; right: 0; top: 0"
-      >
-        <v-icon :disabled="$nuxt.isServer" small>mdi-close</v-icon>
-      </v-btn>
-    </v-card-title>
-    <v-card-text class="py-1">
-      <v-layout row justyfy-center align-center>
-        <v-flex xs11 style="overflow-wrap: break-word;">
-          {{ todo.text }}
-        </v-flex>
-        <v-flex xs1>
-          <div style="text-align: right;">
-            <!-- Добавлена обработка клика -->
-            <v-checkbox
-              :value="todo.done"
-              @click.once="toggle"
-              hide-details
-              class="pa-0 ma-0"
-              style="display: inline-block;"
-              color="green lighten-1"
-            />
-            {{ todo.done }}
-          </div>
-        </v-flex>
-      </v-layout>
-    </v-card-text>
-    <v-card-actions>
-      <span class="grey--text">
-        Выполнить до <v-icon small>mdi-calendar</v-icon> {{ todo.dueDate }} | Создано
-        <v-icon small>mdi-calendar-today</v-icon> {{ todo.createdDate }}
-      </span>
-      <v-spacer />
-      <span class="grey--text">
-        <!-- Изменен путь получения имени категории -->
-        <v-icon small>mdi-pen</v-icon>Категория: {{ todo.category.name }}
-      </span>
-    </v-card-actions>
-  </v-card>
+<template lang="pug">
+  v-card
+    v-card-title.pb-1(style='overflow-wrap: break-word;')
+      b {{ todo.title }}
+      v-spacer
+        // Изменено событие
+      v-btn(@click='remove' text small icon style='position: absolute; right: 0; top: 0')
+        v-icon(:disabled='$nuxt.isServer' small) mdi-close
+    v-card-text.py-1
+      v-row(row justyfy-center align-center)
+        v-col(cols='11' style='overflow-wrap: break-word;')
+          | {{ todo.text }}
+        v-col(cols='1')
+          div(style='text-align: right;')
+            // Добавлена обработка клика
+            v-checkbox.pa-0.ma-0(:value='todo.done' @click.once='toggle' hide-details style='display: inline-block;' color='green lighten-1')
+            | {{ todo.done }}
+    v-card-actions
+      span.grey--text
+        | Выполнить до
+        v-icon(small) mdi-calendar
+        |  {{ todo.dueDate }} | Создано
+        v-icon(small) mdi-calendar-today
+        |  {{ todo.createdDate }}
+      v-spacer
+      span.grey--text
+        // Изменен путь получения имени категории
+        v-icon(small) mdi-pen
+        | Категория: {{ todo.category.name }}
 </template>
 
 <script>

@@ -1,91 +1,36 @@
-<!-- frontend/components/NewTodoForm.vue -->
-<template>
-  <v-form ref="form" v-model="valid">
-    <v-card>
-      <v-card-text class="pt-0 mt-0">
-        <v-layout row wrap>
-          <v-flex xs8>
-            <v-text-field
-              v-model="newTodo.title"
-              :rules="[nonEmptyField]"
-              label="Задача"
-              prepend-icon="mdi-check-circle-outline"
-            />
-          </v-flex>
-          <v-flex xs4>
-            <v-menu
-              ref="menu"
-              v-model="menu"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              :return-value.sync="newTodo.dueDate"
-              transition="scale-transition"
+<template lang="pug">
+  v-form(ref='form' v-model='valid')
+    v-card
+      v-card-text.pt-0.mt-0
+        v-row(row wrap)
+          v-col(cols='8') {{ newTodo }}
+            v-text-field(
+              v-model='newTodo.title'
+              :rules='[nonEmptyField]'
+              label='Задача'
+              prepend-icon='mdi-check-circle-outline')
+          v-col(cols='4')
+            v-menu(
+              ref='menu'
+              v-model='menu'
+              :close-on-content-click='false'
+              :nudge-right='40'
+              :return-value.sync='newTodo.dueDate'
+              transition='scale-transition'
               offset-y
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on }">
-                <v-text-field
-                  v-model="newTodo.dueDate"
-                  :rules="[nonEmptyField]"
-                  v-on="on"
-                  label="Дата выполнения"
-                  prepend-icon="mdi-calendar"
-                  readonly
-                />
-              </template>
-              <v-date-picker
-                v-model="newTodo.dueDate"
-                no-title
-                scrollable
-                locale="ru-ru"
-                first-day-of-week="1"
-              >
-                <v-spacer />
-                <v-btn @click="menu = false" flat color="primary">Отмена</v-btn>
-                <v-btn
-                  @click="$refs.menu.save(newTodo.dueDate)"
-                  flat
-                  color="primary"
-                  >Выбрать</v-btn
-                >
-              </v-date-picker>
-            </v-menu>
-          </v-flex>
-          <v-flex xs12>
-            <v-textarea
-              v-model="newTodo.text"
-              :rules="[nonEmptyField]"
-              label="Описание"
-              prepend-icon="mdi-account"
-              hide-details
-              rows="1"
-              class="py-0 my-0"
-            />
-          </v-flex>
-        </v-layout>
-      </v-card-text>
-      <v-card-actions>
-        <v-combobox
-          v-model="newTodo.category"
-          :rules="[nonEmptyField]"
-          :items="categories"
-          hide-details
-          label="Категория"
-          class="my-0 mx-2 mb-2 pt-0"
-          prepend-icon="mdi-pen"
-        />
-        <v-spacer />
-        <v-btn
-          :disabled="!valid"
-          :loading="loading"
-          @click="add"
-          color="blue lighten-1"
-          text
-          >Добавить</v-btn
-        >
-      </v-card-actions>
-    </v-card>
-  </v-form>
+              min-width='290px')
+              template(v-slot:activator='{ on }')
+                v-text-field(v-model='newTodo.dueDate' :rules='[nonEmptyField]' v-on='on' label='Дата выполнения' prepend-icon='mdi-calendar' readonly)
+              v-date-picker(v-model='newTodo.dueDate' no-title scrollable locale='ru-ru' first-day-of-week='1')
+                v-spacer
+                v-btn(@click='menu = false' text color='primary') Отмена
+                v-btn(@click='$refs.menu.save(newTodo.dueDate)' text color='primary') Выбрать
+          v-col(cols='12')
+            v-textarea.py-0.my-0(v-model='newTodo.text' :rules='[nonEmptyField]' label='Описание' prepend-icon='mdi-account' hide-details rows='1')
+      v-card-actions
+        v-combobox.my-0.mx-2.mb-2.pt-0(v-model='newTodo.category' :rules='[nonEmptyField]' :items='categories' hide-details label='Категория' prepend-icon='mdi-pen')
+        v-spacer
+        v-btn(:disabled='!valid' :loading='loading' @click='add' color='blue lighten-1' text) Добавить
 </template>
 
 <script>
@@ -135,8 +80,9 @@ export default {
           update: (store, { data: { addTodo } }) => {
             // если в кэше отсутствуют данные по запросу, то бросится исключение
             const todoListData = store.readQuery({ query: GET_TODO_LIST })
+
             todoListData.todoList.unshift(addTodo)
-            store.writeQuery({ query: GET_CATEGORIES, data: todoListData })
+            // store.writeQuery({ query: GET_CATEGORIES, data: todoListData })
 
             const categoriesData = store.readQuery({ query: GET_CATEGORIES })
             // В списке категорий ищем категорию новой записи Todo. При неудачном поиске

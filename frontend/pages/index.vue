@@ -1,14 +1,11 @@
 <!-- frontend/pages/index.vue -->
-<template>
-  <v-layout row wrap justify-center>
-    <v-flex xs8 class="pb-1">
-      <!-- emit'ы теперь нам не нужны -->
-      <new-todo-form />
-    </v-flex>
-    <v-flex v-for="todo of todoList" :key="todo.id" xs8 class="my-1">
-      <todo-item :todo="todo" />
-    </v-flex>
-  </v-layout>
+<template lang="pug">
+  v-row.justify-center
+    v-col.pb-1(cols='8')
+      // emit'ы теперь нам не нужны
+      new-todo-form
+    v-col.my-1(v-for='todo of todoList' :key='todo.id' cols='8')
+      todo-item(:todo='todo')
 </template>
 
 <script>
